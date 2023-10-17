@@ -75,7 +75,7 @@ int RS_createShipment(RS *shipments, Shipment s)
         return 0;
     }
     else{
-        return 3; //duplicated code
+        return 2; //duplicated code
     }
 }
 int RS_deleteShipment(RS *shipments, Shipment s){

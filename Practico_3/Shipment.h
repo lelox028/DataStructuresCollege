@@ -1,6 +1,6 @@
 #ifndef SHIPMENT_H
 #define SHIPMENT_H
-#define MAX 300
+
 typedef struct
 {
     char code[8]; // UniqueID
