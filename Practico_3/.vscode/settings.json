@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.tpl": "twig",
+        "shipment.c": "cpp"
+    }
+}
