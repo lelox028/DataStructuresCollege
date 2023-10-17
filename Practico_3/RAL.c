@@ -15,8 +15,8 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
     int freePos = -1;
     int i = *pos;
     int contador = 0;
-    (*cost) = 0;
     int notFound = strcasecmp(shipments.baldes[i].data.code, s.code);
+    (*cost) = 1;
     while (contador < FACTOR_RAL && shipments.baldes[i].status != -1 && notFound)
     {
         if (shipments.baldes[i].status == 0 && freePos != -1)
