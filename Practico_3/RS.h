@@ -1,7 +1,7 @@
 #ifndef RS_h
 #define RS_H
 #define FACTOR_RS 207 // factor para 300/1.45 (n/p)
-#include "Shipment.c"
+#include "Shipment.h"
 #include "Structures.h"
 
 typedef struct Node
