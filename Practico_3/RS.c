@@ -5,6 +5,13 @@ void initRS(RS *rs)
 {
     for (int i = 0; i < FACTOR_RS; i++)
     {
+        Node *currentNode = rs->baldes[i];
+        while (currentNode != NULL)
+        {
+            Node *temp = currentNode;
+            currentNode = currentNode->siguiente;
+            free(temp); // Libera memoria del nodo
+        }
         rs->baldes[i] = NULL;
     }
     rs->size = 0;
