@@ -61,8 +61,8 @@ int RS_createShipment(RS *shipments, Shipment s)
         return 1; // full structure
     }
     int bucket, index;
-    float *cost;
-    if (!RS_locateShipmentIndex(*shipments, s, &index,&bucket,cost)){
+    float cost;
+    if (!RS_locateShipmentIndex(*shipments, s, &index,&bucket,&cost)){
         Node *currentBucket=shipments->baldes[bucket];
         Node *newShipment= (Node*)malloc(sizeof(Node)); 
         if(newShipment==NULL){

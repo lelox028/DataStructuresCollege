@@ -15,7 +15,7 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
     int freePos = -1;
     int i = *pos;
     int contador = 0, k = 1;
-    int notFound = strcasecmp(shipments.baldes[i].data.code, s.code);
+    int notFound = shipments.baldes[i].status == 1 ? strcasecmp(shipments.baldes[i].data.code, s.code) : 1;
     (*cost) = 1;
     while (contador < FACTOR_RAC && shipments.baldes[i].status != -1 && notFound)
     {
@@ -35,17 +35,17 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
     if (!notFound)
     {
         *pos = i;
-        return 0; // Éxito en la localización
+        return 1; // Éxito en la localización
     }
-    else if (contador < FACTOR_RAC)
+   else if (shipments.baldes[i].status == -1)
     {
-        *pos = freePos;
-        return 1; // No se encontró el Shipment ni tampoco una celda virgen
+        *pos = i;
+        return 0; // No se encontró el Shipment pero si una celda virgen
     }
     else
     {
-        *pos = i;
-        return -1; // No se encontró el Shipment pero si una celda virgen
+        *pos = freePos;
+        return 0; // No se encontró el Shipment ni tampoco una celda virgen
     }
 }
 
@@ -72,8 +72,8 @@ int RAC_createShipment(RAC *shipments, Shipment s)
         return 1; // full structure
     }
     int index;
-    float *cost;
-    if (!RAC_locateShipmentIndex(*shipments, s, &index, cost))
+    float cost;
+    if (!RAC_locateShipmentIndex(*shipments, s, &index, &cost))
     {
         shipments->baldes[index].data = s;
         shipments->baldes[index].status = 1;
@@ -95,13 +95,15 @@ int RAC_deleteShipment(RAC *shipments, Shipment s)
     {
         return 2; // not found
     }
-    if (compareShipment(s, shipments->baldes[index].data))
+    if (!compareShipment(s, shipments->baldes[index].data))
     {
         shipments->baldes[index].status = 0;
         shipments->size--;
+        return 0;
     }
-    else
+    else{
         return 3; // abort
+    }
 }
 void RAC_printStructure(RAC shipments)
 {

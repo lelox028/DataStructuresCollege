@@ -33,13 +33,13 @@ int main()
 {
     // definiendo controles para diferentes OS
     char clearScreen[6];
-    char pause[62];
+    char pause[125];
 #ifdef _WIN32
     strcpy(clearScreen, "cls\0");
     strcpy(pause, "pause");
 #else
     strcpy(clearScreen, "clear\0");
-    strcpy(pause, "read -n 1 -s -p \"Presione cualquier tecla para continuar...\"\n\0");
+    strcpy(pause, "read -p 'Presione Enter para continuar...' key");
 #endif
     // fin controles OS
     FILE *file;
@@ -56,7 +56,9 @@ int main()
     // Aux variables
 
     int vecesBajaRAL = 0, vecesBajaRAC = 0, vecesBajaRS = 0;
+    int vecesNoBajaRAL = 0, vecesNoBajaRAC = 0, vecesNoBajaRS = 0;
     int vecesAltaRAL = 0, vecesAltaRAC = 0, vecesAltaRS = 0;
+    int vecesNoAltaRAL = 0, vecesNoAltaRAC = 0, vecesNoAltaRS = 0;
 
     // Shipment tempShipment;
     int tempPos;
@@ -126,6 +128,7 @@ int main()
                     break;
                 case 2:
                     RAC_printStructure(rac);
+                    system(pause);
                     break;
                 case 3:
                     RS_printStructure(rs);
@@ -147,7 +150,7 @@ int main()
             // aux var
             char operation;
             Shipment s;
-            float tempCost;
+            float tempCost=0;
 
             // Abre el archivo de operaciones
             file = fopen("Operaciones-Envios.txt", "r");
@@ -187,15 +190,24 @@ int main()
                     {
                         vecesAltaRAL++;
                     }
+                    else{
+                        vecesNoAltaRAL++;
+                    }
                     // RAC
                     if (RAC_createShipment(&rac, s) == 0)
                     {
                         vecesAltaRAC++;
                     }
+                    else{
+                        vecesNoAltaRAC++;
+                    }
                     // RS
                     if (RS_createShipment(&rs, s) == 0)
                     {
                         vecesAltaRS++;
+                    }
+                     else{
+                        vecesNoAltaRS++;
                     }
                 }
                 else if (operation == '2')
@@ -205,15 +217,24 @@ int main()
                     {
                         vecesBajaRAL++;
                     }
+                    else{
+                        vecesNoBajaRAL++;
+                    }
                     // RAC
                     if (RAC_deleteShipment(&rac, s) == 0)
                     {
                         vecesBajaRAC++;
                     }
+                     else{
+                        vecesNoBajaRAC++;
+                    }
                     // RS
                     if (RS_deleteShipment(&rs, s) == 0)
                     {
                         vecesBajaRS++;
+                    }
+                     else{
+                        vecesNoBajaRS++;
                     }
                 }
                 else if (operation == '3')

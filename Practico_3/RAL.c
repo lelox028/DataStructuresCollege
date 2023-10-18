@@ -15,7 +15,7 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
     int freePos = -1;
     int i = *pos;
     int contador = 0;
-    int notFound = strcasecmp(shipments.baldes[i].data.code, s.code);
+    int notFound = shipments.baldes[i].status == 1 ? strcasecmp(shipments.baldes[i].data.code, s.code) : 1;
     (*cost) = 1;
     while (contador < FACTOR_RAL && shipments.baldes[i].status != -1 && notFound)
     {
@@ -36,18 +36,17 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
     {
         *pos = i;
 
-        return 0; // Éxito en la localización
+        return 1; // Éxito en la localización
     }
-    else if (contador < FACTOR_RAL)
+    else if (shipments.baldes[i].status == -1)
     {
-        *pos = freePos;
-
-        return 1; // No se encontró el Shipment ni tampoco una celda virgen
+        *pos = i;
+        return 0; // No se encontró el Shipment pero si una celda virgen
     }
     else
     {
-        *pos = i;
-        return -1; // No se encontró el Shipment pero si una celda virgen
+        *pos = freePos;
+        return 0; // No se encontró el Shipment ni tampoco una celda virgen
     }
 }
 
@@ -74,8 +73,8 @@ int RAL_createShipment(RAL *shipments, Shipment s)
         return 1; // full structure
     }
     int index;
-    float *cost;
-    if (!RAL_locateShipmentIndex(*shipments, s, &index, cost))
+    float cost=0;
+    if (!RAL_locateShipmentIndex(*shipments, s, &index, &cost))
     {
         shipments->baldes[index].data = s;
         shipments->baldes[index].status = 1;
@@ -97,9 +96,10 @@ int RAL_deleteShipment(RAL *shipments, Shipment s)
     {
         return 2; // not found
     }
-    if(compareShipment(s,shipments->baldes[index].data)){
+    if(!compareShipment(s,shipments->baldes[index].data)){
         shipments->baldes[index].status=0;
         shipments->size--;
+        return 0;
     }
     else
         return 3; //abort
