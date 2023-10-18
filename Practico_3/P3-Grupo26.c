@@ -15,19 +15,13 @@
 /* 
 Dada la tabla de costos:
 ----------------------------------------------------------------------------------------
-Operacion              | RAL                      | RAC                    | RS
+Operación              | RAL                      | RAC                      | RS
 ----------------------------------------------------------------------------------------
-Evocacion Exitosa      | Max: 60    Avg: 23.97    | Max: 6     Avg: 5.57     | Max: 12    Avg: 5.71
-Evocacion No Exitosa   | Max: 42    Avg: 16.70    | Max: 6     Avg: 4.87     | Max: 10    Avg: 5.27
-Alta                   | Max: 58    Avg: 15.07    | Max: 58    Avg: 15.07    | Max: 0.500000 Avg: 0.50
-Baja                   | Max: 47    Avg: 16.77    | Max: 47    Avg: 16.77    | Max: 1.500000 Avg: 0.98
+Evocacion Exitosa      | Max: 85    Avg: 12.13    | Max: 15    Avg: 4.22     | Max: 4     Avg: 1.29    
+Evocacion No Exitosa   | Max: 89    Avg: 22.72    | Max: 17    Avg: 6.35     | Max: 3     Avg: 0.39    
 ----------------------------------------------------------------------------------------
 
-En el análisis comparativo de las estructuras de datos, se destacó que la Lista Secuencial Ordenada exhibió el peor rendimiento, especialmente en las operaciones de evocación, donde sus costos fueron significativamente más altos que los de las otras estructuras. Su única ventaja aparente radica en su facilidad de programación.
-
-En contraste, la Lista Secuencial Ordenada con Búsqueda Binaria demostró ser la opción más eficiente en términos de costos para las operaciones de evocación, especialmente en cuanto a los costos máximos. Aunque sus costos esperados apenas mostraron diferencias significativas en comparación con los del Árbol Binario de Búsqueda, sus operaciones de Alta y Baja presentaron costos idénticos a los de la Lista Secuencial Ordenada.
-
-Finalmente, el Árbol Binario de Búsqueda destacó por su notable eficiencia en las operaciones de Alta y Baja en comparación con las otras estructuras. Incluso logró costos medios similares a los de la Lista Secuencial Ordenada con Búsqueda Binaria en las operaciones de Evocación. Es por esto, que considero que el Arbol Binario de Busqueda es la estructura con mejor rendimiento, ya que la diferencia de costos en evocacion con la estructura mas eficiente en esa operacion es infima, mientras que la ventaja que esta presenta en altas y bajas respecto de las demas alternativas es demasiado pronunciada, y esta diferencia quedara cada vez mas evidenciada a medida que la cantidad de elementos en las estructuras aumente.
+Estos valores indican que el Rebalse Separado tiene el mejor rendimiento tanto para evocaciones exitosas como no exitosas, ya que se espera un número sustancialmente menor de consultas en promedio que las demás estructuras y, en los casos extremos, es decir, los peores casos, esta diferencia es aún mayor. Por otro lado, el Rebalse Abierto Cuadrático tiene un rendimiento intermedio, y el Rebalse Abierto Lineal parece ser la menos eficiente en términos de cantidad de celdas consultadas necesarias para realizar evocaciones, sobre todo en los casos extremos, donde la diferencia es aún más pronunciada.
 */
 int main()
 {
@@ -330,7 +324,7 @@ int main()
 
 
             printf("----------------------------------------------------------------------------------------\n");
-            printf("Operación              | RAL                      | RAC                    | RS\n");
+            printf("Operación              | RAL                      | RAC                      | RS\n");
             printf("----------------------------------------------------------------------------------------\n");
 
             // Mostrar resultados para la operación "evocacion exitosa"
