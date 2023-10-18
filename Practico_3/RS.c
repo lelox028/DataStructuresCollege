@@ -23,16 +23,16 @@ int RS_locateShipmentIndex(RS rs, Shipment s, int *pos, int *bucket, float *cost
 
     Node *current = rs.baldes[*bucket];
     *pos = 0;
-    *cost=1;
+    *cost = 0;
     while (current != NULL)
     {
+        (*cost)++;
         if (strcasecmp(current->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
-        current = current->siguiente;
         (*pos)++;
-        (*cost)++;
+        current = current->siguiente;
     }
 
     return 0; // El Shipment no fue encontrado
@@ -42,7 +42,7 @@ int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
     if (shipments.size == 0)
     {
         return 1; // empty structure
-    }           
+    }
     int bucket, index;
     *cost = 0;
     Node *current;
@@ -62,82 +62,88 @@ int RS_createShipment(RS *shipments, Shipment s)
     }
     int bucket, index;
     float cost;
-    if (!RS_locateShipmentIndex(*shipments, s, &index,&bucket,&cost)){
-        Node *currentBucket=shipments->baldes[bucket];
-        Node *newShipment= (Node*)malloc(sizeof(Node)); 
-        if(newShipment==NULL){
-            return 2; //out of memory
+    if (!RS_locateShipmentIndex(*shipments, s, &index, &bucket, &cost))
+    {
+        Node *currentBucket = shipments->baldes[bucket];
+        Node *newShipment = (Node *)malloc(sizeof(Node));
+        if (newShipment == NULL)
+        {
+            return 2; // out of memory
         }
-        newShipment->data=s;
+        newShipment->data = s;
         newShipment->siguiente = currentBucket;
         shipments->baldes[bucket] = newShipment;
         shipments->size++;
         return 0;
     }
-    else{
-        return 2; //duplicated code
+    else
+    {
+        return 2; // duplicated code
     }
 }
-int RS_deleteShipment(RS *shipments, Shipment s){
+int RS_deleteShipment(RS *shipments, Shipment s)
+{
     if (shipments->size == 0)
     {
         return 1; // empty structure
-    } 
-      int bucket, index;
-      float *cost;
-    Node* currentBucket;
+    }
+    int bucket, index;
+    float *cost;
+    Node *currentBucket;
     if (!RS_locateShipmentIndex(*shipments, s, &index, &bucket, cost))
     {
         return 2; // shipment not found
     }
-    currentBucket=shipments->baldes[bucket];
-    if(!compareShipment(s,currentBucket[index].data)){
-        Node *prev = NULL;
-        
-        // Encuentra el nodo a eliminar y su nodo anterior en la lista vinculada
-        while (currentBucket != NULL)
-        {
-            if (strcasecmp(currentBucket->data.code, s.code) == 0)
-            {
-                if (prev != NULL)
-                {
-                    prev->siguiente = currentBucket->siguiente;
-                }
-                else
-                {
-                    shipments->baldes[bucket] = currentBucket->siguiente;
-                }
-                
-                free(currentBucket); // free node
-                shipments->size--;
-                return 0; // success
-            }
-            prev = currentBucket;
-            currentBucket = currentBucket->siguiente;
-        }
+    currentBucket = shipments->baldes[bucket];
+    Node *prev = NULL;
+    for (int i = 0; i < index; i++)
+    {
+        prev = currentBucket;
+        currentBucket = currentBucket->siguiente;
     }
-    else{
+    if (!compareShipment(s, currentBucket->data))
+    {
+
+        // Encuentra el nodo a eliminar y su nodo anterior en la lista vinculada
+
+        if (prev != NULL)
+        {
+            prev->siguiente = currentBucket->siguiente;
+        }
+        else
+        {
+            shipments->baldes[bucket] = currentBucket->siguiente;
+        }
+
+        free(currentBucket); // free node
+        shipments->size--;
+        return 0; // success
+    }
+    else
+    {
         return 3; // abort
     }
-    
 }
 
-void RS_printBucket(Node *list){
+void RS_printBucket(Node *list)
+{
     Node *cur = list;
-    while (cur!=NULL)
+    while (cur != NULL)
     {
         printShipment(cur->data);
         cur = cur->siguiente;
     }
 }
-void RS_printStructure(RS shipments){
-     for (int i = 0; i < FACTOR_RS; i++)
+void RS_printStructure(RS shipments)
+{
+    for (int i = 0; i < FACTOR_RS; i++)
     {
-        if(shipments.baldes[i]!=NULL){
+        if (shipments.baldes[i] != NULL)
+        {
 
-        printf("Bucket[%d]: ", i);
-        RS_printBucket(shipments.baldes[i]);
-        printf("\n");
+            printf("Bucket[%d]: ", i);
+            RS_printBucket(shipments.baldes[i]);
+            printf("\n");
         }
     }
     printf("\n--------------------------------------------------------------------\n");
