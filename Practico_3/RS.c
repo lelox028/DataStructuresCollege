@@ -3,6 +3,8 @@
 
 void initRS(RS *rs)
 {
+    if (rs->size == 0) {return;}//solucion al crash? preguntar!!
+    
     for (int i = 0; i < FACTOR_RS; i++)
     {
         Node *currentNode = rs->baldes[i];
@@ -17,21 +19,22 @@ void initRS(RS *rs)
     rs->size = 0;
 }
 
-int RS_locateShipmentIndex(RS rs, Shipment s, int *pos, int *bucket, float *cost)
+int RS_locateShipmentIndex(RS rs, Shipment s, Node *parent, int *bucket, float *cost)
 {
     (*bucket) = hashing(s.code, FACTOR_RS); // Calcula el índice utilizando la función de hashing
-
+    parent = NULL;
     Node *current = rs.baldes[*bucket];
-    *pos = 0;
+    // *pos = 0;
     *cost = 0;
     while (current != NULL)
     {
         (*cost)++;
-        if (strcasecmp(current->data.code, s.code) == 0)
+        if (stricmp(current->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
-        (*pos)++;
+        // (*pos)++;
+        parent = current;
         current = current->siguiente;
     }
 
@@ -43,13 +46,21 @@ int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
     {
         return 1; // empty structure
     }
-    int bucket, index;
+    int bucket;
+    Node *parent = NULL;
     *cost = 0;
     Node *current;
-    if (RS_locateShipmentIndex(shipments, *s, &index, &bucket, cost))
+    if (RS_locateShipmentIndex(shipments, *s, parent, &bucket, cost))
     {
-        current = shipments.baldes[bucket];
-        (*s) = current[index].data;
+        if (parent != NULL)
+        {
+            current = parent->siguiente;
+        }
+        else
+        {
+            current = shipments.baldes[bucket];
+        }
+        (*s) = current->data;
         return 0;
     }
     return 2; // not found
@@ -60,9 +71,10 @@ int RS_createShipment(RS *shipments, Shipment s)
     {
         return 1; // full structure
     }
-    int bucket, index;
+    Node *parent=NULL;
+    int bucket;
     float cost;
-    if (!RS_locateShipmentIndex(*shipments, s, &index, &bucket, &cost))
+    if (!RS_locateShipmentIndex(*shipments, s, parent, &bucket, &cost))
     {
         Node *currentBucket = shipments->baldes[bucket];
         Node *newShipment = (Node *)malloc(sizeof(Node));
@@ -88,34 +100,35 @@ int RS_deleteShipment(RS *shipments, Shipment s)
         return 1; // empty structure
     }
     int bucket, index;
-    float *cost;
+    float cost = 0;
+    Node *parent = NULL;
     Node *currentBucket;
-    if (!RS_locateShipmentIndex(*shipments, s, &index, &bucket, cost))
+    if (!RS_locateShipmentIndex(*shipments, s, parent, &bucket, &cost))
     {
         return 2; // shipment not found
     }
-    currentBucket = shipments->baldes[bucket];
-    Node *prev = NULL;
-    for (int i = 0; i < index; i++)
-    {
-        prev = currentBucket;
-        currentBucket = currentBucket->siguiente;
-    }
-    if (!compareShipment(s, currentBucket->data))
-    {
-
-        // Encuentra el nodo a eliminar y su nodo anterior en la lista vinculada
-
-        if (prev != NULL)
+    Node *current;
+     if (parent != NULL)
         {
-            prev->siguiente = currentBucket->siguiente;
+            current = parent->siguiente;
         }
         else
         {
-            shipments->baldes[bucket] = currentBucket->siguiente;
+            current = shipments->baldes[bucket];
+        }
+    if (!compareShipment(s, current->data))
+    {
+
+        if (parent != NULL)
+        {
+            parent->siguiente = current->siguiente;
+        }
+        else
+        {
+            shipments->baldes[bucket] = current->siguiente;
         }
 
-        free(currentBucket); // free node
+        free(current); // free node
         shipments->size--;
         return 0; // success
     }
