@@ -4,7 +4,7 @@
 void initRS(RS *rs)
 {
     if (rs->size == 0) {return;}//solucion al crash? preguntar!!
-    
+
     for (int i = 0; i < FACTOR_RS; i++)
     {
         Node *currentNode = rs->baldes[i];
@@ -52,14 +52,7 @@ int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
     Node *current;
     if (RS_locateShipmentIndex(shipments, *s, parent, &bucket, cost))
     {
-        if (parent != NULL)
-        {
-            current = parent->siguiente;
-        }
-        else
-        {
-            current = shipments.baldes[bucket];
-        }
+        current = parent !=NULL? parent->siguiente : shipments.baldes[bucket];
         (*s) = current->data;
         return 0;
     }
@@ -107,15 +100,7 @@ int RS_deleteShipment(RS *shipments, Shipment s)
     {
         return 2; // shipment not found
     }
-    Node *current;
-     if (parent != NULL)
-        {
-            current = parent->siguiente;
-        }
-        else
-        {
-            current = shipments->baldes[bucket];
-        }
+    Node *current = parent !=NULL? parent->siguiente : shipments->baldes[bucket];
     if (!compareShipment(s, current->data))
     {
 
