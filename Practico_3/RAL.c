@@ -36,18 +36,17 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
     if (!notFound)
     {
         *pos = i;
-
         return 1; // Éxito en la localización
     }
-    else if (shipments.baldes[i].status == -1)
+    else if (freePos != -1) 
+    {
+        *pos = freePos;
+        return 0; // No se encontró el Shipment pero si una celda libre
+    }
+    else // celda virgen
     {
         *pos = i;
         return 0; // No se encontró el Shipment pero si una celda virgen
-    }
-    else
-    {
-        *pos = freePos;
-        return 0; // No se encontró el Shipment ni tampoco una celda virgen
     }
 }
 

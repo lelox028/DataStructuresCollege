@@ -7,7 +7,7 @@ void initRAC(RAC *rac)
     {
         rac->baldes[i].status = -1;
     }
-    rac->size=0;
+    rac->size = 0;
 }
 
 int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
@@ -38,15 +38,19 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
         *pos = i;
         return 1; // Éxito en la localización
     }
-   else if (shipments.baldes[i].status == -1)
+    else if (freePos != -1)
+    {
+        *pos = freePos;
+        return 0; // No se encontró el Shipment pero si una celda libre
+    }
+    else if (contador == FACTOR_RAC)
+    {
+        return 2; // acabo la cantidad de iteraciones sin encontrar celdas disponibles ni el elemento
+    }
+    else // celda virgen
     {
         *pos = i;
         return 0; // No se encontró el Shipment pero si una celda virgen
-    }
-    else
-    {
-        *pos = freePos;
-        return 0; // No se encontró el Shipment ni tampoco una celda virgen
     }
 }
 
@@ -58,7 +62,7 @@ int RAC_evocateShipment(RAC shipments, Shipment *s, float *cost)
     }
     *cost = 0;
     int index;
-    if (RAC_locateShipmentIndex(shipments, *s, &index, cost))
+    if (RAC_locateShipmentIndex(shipments, *s, &index, cost)==1)
     {
         *s = shipments.baldes[index].data;
         return 0; // success
@@ -92,7 +96,7 @@ int RAC_deleteShipment(RAC *shipments, Shipment s)
     }
     float cost = 0;
     int index;
-    if (!RAC_locateShipmentIndex(*shipments, s, &index, &cost))
+    if (RAC_locateShipmentIndex(*shipments, s, &index, &cost)!=1)
     {
         return 2; // not found
     }
@@ -102,7 +106,8 @@ int RAC_deleteShipment(RAC *shipments, Shipment s)
         shipments->size--;
         return 0;
     }
-    else{
+    else
+    {
         return 3; // abort
     }
 }
