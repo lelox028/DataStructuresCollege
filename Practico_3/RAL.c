@@ -7,6 +7,7 @@ void initRAL(RAL *ral)
     {
         ral->baldes[i].status = -1;
     }
+    ral->size=0;
 }
 
 int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)

@@ -1,6 +1,7 @@
 #ifndef RAL_h
 #define RAL_H
 #define FACTOR_RAL 359 // numero primo mas cercano mayor al factor para 300/0.84=357 (n/p)
+//#define FACTOR_RAL 60
 #include "Shipment.h"
 #include "Structures.h"
 typedef struct CeldaRAL

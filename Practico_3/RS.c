@@ -3,7 +3,10 @@
 
 void initRS(RS *rs)
 {
-    if (rs->size == 0) {return;}//solucion al crash? preguntar!!
+    if (rs->size == 0)
+    {
+        return;
+    } // solucion al crash? preguntar!!
 
     for (int i = 0; i < FACTOR_RS; i++)
     {
@@ -19,26 +22,27 @@ void initRS(RS *rs)
     rs->size = 0;
 }
 
-int RS_locateShipmentIndex(RS rs, Shipment s, Node *parent, int *bucket, float *cost)
+int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int *bucket, float *cost)
 {
     (*bucket) = hashing(s.code, FACTOR_RS); // Calcula el índice utilizando la función de hashing
-    parent = NULL;
-    Node *current = rs.baldes[*bucket];
+    *parent = NULL;
+    *current = rs.baldes[*bucket];
     // *pos = 0;
-    *cost = 0;
-    while (current != NULL)
+    *cost = 0; // la cabezera cuenta?
+    while (*current != NULL)
     {
         (*cost)++;
-        if (stricmp(current->data.code, s.code) == 0)
+        if (stricmp((*current)->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
         // (*pos)++;
-        parent = current;
-        current = current->siguiente;
+        *parent = *current;
+        *current = (*current)->siguiente;
     }
-
-    return 0; // El Shipment no fue encontrado
+    if ((*cost) == 0)
+        (*cost)++; // cuento la cabecera vacia
+    return 0;      // El Shipment no fue encontrado
 }
 int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
 {
@@ -49,10 +53,9 @@ int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
     int bucket;
     Node *parent = NULL;
     *cost = 0;
-    Node *current;
-    if (RS_locateShipmentIndex(shipments, *s, parent, &bucket, cost))
+    Node *current = NULL;
+    if (RS_locateShipmentIndex(shipments, *s, &parent, &current, &bucket, cost))
     {
-        current = parent !=NULL? parent->siguiente : shipments.baldes[bucket];
         (*s) = current->data;
         return 0;
     }
@@ -64,19 +67,19 @@ int RS_createShipment(RS *shipments, Shipment s)
     {
         return 1; // full structure
     }
-    Node *parent=NULL;
+    Node *parent = NULL, *current = NULL;
     int bucket;
     float cost;
-    if (!RS_locateShipmentIndex(*shipments, s, parent, &bucket, &cost))
+    if (!RS_locateShipmentIndex(*shipments, s, &parent, &current, &bucket, &cost))
     {
-        Node *currentBucket = shipments->baldes[bucket];
+
         Node *newShipment = (Node *)malloc(sizeof(Node));
         if (newShipment == NULL)
         {
             return 2; // out of memory
         }
         newShipment->data = s;
-        newShipment->siguiente = currentBucket;
+        newShipment->siguiente = shipments->baldes[bucket];
         shipments->baldes[bucket] = newShipment;
         shipments->size++;
         return 0;
@@ -95,12 +98,11 @@ int RS_deleteShipment(RS *shipments, Shipment s)
     int bucket, index;
     float cost = 0;
     Node *parent = NULL;
-    Node *currentBucket;
-    if (!RS_locateShipmentIndex(*shipments, s, parent, &bucket, &cost))
+    Node *current = NULL;
+    if (!RS_locateShipmentIndex(*shipments, s, &parent, &current, &bucket, &cost))
     {
         return 2; // shipment not found
     }
-    Node *current = parent !=NULL? parent->siguiente : shipments->baldes[bucket];
     if (!compareShipment(s, current->data))
     {
 

@@ -7,6 +7,7 @@ void initRAC(RAC *rac)
     {
         rac->baldes[i].status = -1;
     }
+    rac->size=0;
 }
 
 int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)

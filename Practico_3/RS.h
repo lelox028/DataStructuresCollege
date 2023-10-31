@@ -17,7 +17,7 @@ typedef struct RS
 } RS;
 
 void initRS(RS *rs);
-int RS_locateShipmentIndex(RS rs, Shipment s, Node *parent, int *bucket, float *cost); // localizar
+int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int *bucket, float *cost); // localizar
 int RS_evocateShipment(RS shipments, Shipment *s, float *cost);                    // evocacion
 int RS_createShipment(RS *shipments, Shipment s);                                  // alta
 int RS_deleteShipment(RS *shipments, Shipment s);                                  // baja
