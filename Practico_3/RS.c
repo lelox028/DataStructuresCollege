@@ -5,8 +5,11 @@ void initRS(RS *rs)
 {
     if (rs->size == 0)
     {
+        for (int i = 0; i < FACTOR_RS; i++){
+            rs->baldes[i]=NULL;
+        }
         return;
-    } // solucion al crash? preguntar!!
+    }
 
     for (int i = 0; i < FACTOR_RS; i++)
     {
