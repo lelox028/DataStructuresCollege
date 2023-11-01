@@ -21,6 +21,6 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost); /
 int RAC_evocateShipment(RAC shipments, Shipment *s, float *cost);                           // evocacion
 int RAC_createShipment(RAC *shipments, Shipment s);                                         // alta
 int RAC_deleteShipment(RAC *shipments, Shipment s);                                         // baja
-void RAC_printStructure(RAC shipments);                                                     // printear estructura                                                // printear balde
+void RAC_printStructure(RAC shipments);                                                     // printear estructura
 
 #endif

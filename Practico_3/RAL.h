@@ -21,6 +21,6 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost); /
 int RAL_evocateShipment(RAL shipments, Shipment *s, float *cost);                           // evocacion
 int RAL_createShipment(RAL *shipments, Shipment s);                                         // alta
 int RAL_deleteShipment(RAL *shipments, Shipment s);                                         // baja
-void RAL_printStructure(RAL shipments);                                                     // printear estructura                                                // printear balde
+void RAL_printStructure(RAL shipments);                                                     // printear estructura
 
 #endif
