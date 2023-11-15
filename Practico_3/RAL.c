@@ -16,7 +16,7 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
     int freePos = -1;
     int i = *pos;
     int contador = 0;
-    int notFound = shipments.baldes[i].status == 1 ? stricmp(shipments.baldes[i].data.code, s.code) : 1;
+    int notFound = shipments.baldes[i].status == 1 ? strcasecmp(shipments.baldes[i].data.code, s.code) : 1;
     (*cost) = 1;
     while (contador < FACTOR_RAL && shipments.baldes[i].status != -1 && notFound)
     {
@@ -28,7 +28,7 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
         contador++;
         if (shipments.baldes[i].status == 1 && contador < FACTOR_RAL)
         {
-            notFound = stricmp(shipments.baldes[i].data.code, s.code);
+            notFound = strcasecmp(shipments.baldes[i].data.code, s.code);
         }
         //(*cost)++;
     }
