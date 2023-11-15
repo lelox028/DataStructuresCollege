@@ -35,7 +35,7 @@ int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int
     while (*current != NULL)
     {
         (*cost)++;
-        if (strcasecmp((*current)->data.code, s.code) == 0)
+        if (stricmp((*current)->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
