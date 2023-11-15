@@ -15,10 +15,10 @@
 /* 
 Dada la tabla de costos:
 ----------------------------------------------------------------------------------------
-Operación              | RAL                      | RAC                      | RS
+Operaci├│n              | RAL                      | RAC                      | RS
 ----------------------------------------------------------------------------------------
-Evocación Exitosa      | Max: 85    Avg: 12.13    | Max: 15    Avg: 4.22     | Max: 4     Avg: 1.29
-Evocación No Exitosa   | Max: 89    Avg: 22.72    | Max: 17    Avg: 6.35     | Max: 3     Avg: 1.10
+Evocacion Exitosa      | Max: 85    Avg: 12.13    | Max: 15    Avg: 4.22     | Max: 5     Avg: 2.29
+Evocacion No Exitosa   | Max: 89    Avg: 22.71    | Max: 17    Avg: 6.34     | Max: 4     Avg: 1.36
 ----------------------------------------------------------------------------------------
 
 Estos valores indican que el Rebalse Separado tiene el mejor rendimiento tanto para evocaciones exitosas como no exitosas, ya que se espera un número sustancialmente menor de consultas en promedio que las demás estructuras y, en los casos extremos, es decir, los peores casos, esta diferencia es aún mayor. Por otro lado, el Rebalse Abierto Cuadrático tiene un rendimiento intermedio, y el Rebalse Abierto Lineal parece ser la menos eficiente en términos de cantidad de celdas consultadas necesarias para realizar evocaciones, sobre todo en los casos extremos, donde la diferencia es aún más pronunciada.
@@ -45,6 +45,7 @@ int main()
     initRAC(&rac);
 
     RS rs;
+    rs.size=0;
     initRS(&rs);
 
     // Aux variables

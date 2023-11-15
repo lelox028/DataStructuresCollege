@@ -1,7 +1,7 @@
 #ifndef RAC_h
 #define RAC_H
 #define FACTOR_RAC 401 // numero primo mas cercano mayor al factor para 300/0.75 = 400 (n/p)
-//#define FACTOR_RAC 60
+//#define FACTOR_RAC 59
 #include "Shipment.h"
 #include "Structures.h"
 typedef struct CeldaRAC

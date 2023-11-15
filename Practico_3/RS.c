@@ -31,7 +31,7 @@ int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int
     *parent = NULL;
     *current = rs.baldes[*bucket];
     // *pos = 0;
-    *cost = 0; // la cabezera cuenta?
+    *cost = 1; // la cabezera cuenta! //CONSULTAR!
     while (*current != NULL)
     {
         (*cost)++;
@@ -43,19 +43,19 @@ int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int
         *parent = *current;
         *current = (*current)->siguiente;
     }
-    if ((*cost) == 0)
-        (*cost)++; // cuento la cabecera vacia
+    // if ((*cost) == 0)
+    //     (*cost)++; // cuento la cabecera vacia
     return 0;      // El Shipment no fue encontrado
 }
 int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
 {
+    *cost = 0;
     if (shipments.size == 0)
     {
         return 1; // empty structure
     }
     int bucket;
     Node *parent = NULL;
-    *cost = 0;
     Node *current = NULL;
     if (RS_locateShipmentIndex(shipments, *s, &parent, &current, &bucket, cost))
     {

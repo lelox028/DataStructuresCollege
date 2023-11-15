@@ -56,11 +56,11 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
 
 int RAC_evocateShipment(RAC shipments, Shipment *s, float *cost)
 {
+    *cost = 0;
     if (shipments.size == 0)
     {
         return 1; // empty structure
     }
-    *cost = 0;
     int index;
     if (RAC_locateShipmentIndex(shipments, *s, &index, cost)==1)
     {
@@ -72,7 +72,7 @@ int RAC_evocateShipment(RAC shipments, Shipment *s, float *cost)
 }
 int RAC_createShipment(RAC *shipments, Shipment s)
 {
-    if (shipments->size == MAX)
+    if (shipments->size == FACTOR_RAC)
     {
         return 1; // full structure
     }

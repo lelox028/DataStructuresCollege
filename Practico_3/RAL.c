@@ -24,7 +24,7 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
         {
             freePos = i;
         }
-        i = (i + 1) % FACTOR_RAL;
+        i = (i + 1) % FACTOR_RAL; 
         contador++;
         if (shipments.baldes[i].status == 1 && contador < FACTOR_RAL)
         {
@@ -52,11 +52,11 @@ int RAL_locateShipmentIndex(RAL shipments, Shipment s, int *pos, float *cost)
 
 int RAL_evocateShipment(RAL shipments, Shipment *s, float *cost)
 {
+    *cost = 0;
     if (shipments.size == 0)
     {
         return 1; // empty structure
     }
-    *cost = 0;
     int index;
     if (RAL_locateShipmentIndex(shipments, *s, &index, cost))
     {
@@ -68,7 +68,7 @@ int RAL_evocateShipment(RAL shipments, Shipment *s, float *cost)
 }
 int RAL_createShipment(RAL *shipments, Shipment s)
 {
-    if (shipments->size == MAX)
+    if (shipments->size == FACTOR_RAL)
     {
         return 1; // full structure
     }
