@@ -6,7 +6,7 @@ void inputCode(Shipment *s)
     scanf("%7s", s->code); // maximo 7 caracteres
     for (int i = 0; s->code[i]; i++)
     {
-        s->code[i] = tolower(s->code[i]); // convierte a minusculas
+        s->code[i] = toupper(s->code[i]); // convierte a MAYUSCULAS
     }
 }
 
@@ -60,14 +60,14 @@ void printShipment(Shipment s)
 
 int compareShipment(Shipment shipment1, Shipment shipment2) {
     // Compara los campos uno por uno
-    int codeComparison = stricmp(shipment1.code, shipment2.code);
+    int codeComparison = strcasecmp(shipment1.code, shipment2.code);
     int receiverDNIComparison = shipment1.receiverDNI - shipment2.receiverDNI;
-    int receiverNameComparison = stricmp(shipment1.receiverName, shipment2.receiverName);
-    int receiverAddressComparison = stricmp(shipment1.receiverAddress, shipment2.receiverAddress);
+    int receiverNameComparison = strcasecmp(shipment1.receiverName, shipment2.receiverName);
+    int receiverAddressComparison = strcasecmp(shipment1.receiverAddress, shipment2.receiverAddress);
     int senderDNIComparison = shipment1.senderDNI - shipment2.senderDNI;
-    int senderNameComparison = stricmp(shipment1.senderName, shipment2.senderName);
-    int sendDateComparison = stricmp(shipment1.sendDate, shipment2.sendDate);
-    int receiveDateComparison = stricmp(shipment1.receiveDate, shipment2.receiveDate);
+    int senderNameComparison = strcasecmp(shipment1.senderName, shipment2.senderName);
+    int sendDateComparison = strcasecmp(shipment1.sendDate, shipment2.sendDate);
+    int receiveDateComparison = strcasecmp(shipment1.receiveDate, shipment2.receiveDate);
 
     // Devuelve el resultado de la comparación combinada
     if (codeComparison != 0) {

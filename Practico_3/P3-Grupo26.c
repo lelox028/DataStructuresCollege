@@ -162,7 +162,7 @@ int main()
                 fscanf(file, "%7s", s.code);
                 for (int i = 0; s.code[i]; i++)
                 {
-                    s.code[i] = tolower(s.code[i]); // Convertir a minúsculas
+                    s.code[i] = toupper(s.code[i]); // Convertir a MAYUSCULAS
                 }
                 if (operation == '1' || operation == '2')
                 {

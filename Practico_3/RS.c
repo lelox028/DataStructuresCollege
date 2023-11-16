@@ -35,7 +35,7 @@ int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int
     while (*current != NULL)
     {
         (*cost)++;
-        if (stricmp((*current)->data.code, s.code) == 0)
+        if (strcasecmp((*current)->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
@@ -66,10 +66,10 @@ int RS_evocateShipment(RS shipments, Shipment *s, float *cost)
 }
 int RS_createShipment(RS *shipments, Shipment s)
 {
-    if (shipments->size == MAX)
-    {
-        return 1; // full structure
-    }
+    // if (shipments->size == MAX)
+    // {
+    //     return 1; // full structure
+    // }
     Node *parent = NULL, *current = NULL;
     int bucket;
     float cost;
@@ -79,7 +79,7 @@ int RS_createShipment(RS *shipments, Shipment s)
         Node *newShipment = (Node *)malloc(sizeof(Node));
         if (newShipment == NULL)
         {
-            return 2; // out of memory
+            return 1; // out of memory
         }
         newShipment->data = s;
         newShipment->siguiente = shipments->baldes[bucket];
