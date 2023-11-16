@@ -17,12 +17,24 @@ Dada la tabla de costos:
 ----------------------------------------------------------------------------------------
 Operaci├│n              | RAL                      | RAC                      | RS
 ----------------------------------------------------------------------------------------
-Evocacion Exitosa      | Max: 85    Avg: 12.13    | Max: 15    Avg: 4.22     | Max: 5     Avg: 2.29
-Evocacion No Exitosa   | Max: 89    Avg: 22.71    | Max: 17    Avg: 6.34     | Max: 4     Avg: 1.36
+Evocacion Exitosa      | Max: 6     Avg: 1.68     | Max: 7     Avg: 1.72     | Max: 5     Avg: 2.29
+Evocacion No Exitosa   | Max: 9     Avg: 3.84     | Max: 11    Avg: 3.53     | Max: 4     Avg: 1.36
 ----------------------------------------------------------------------------------------
 
-Estos valores indican que el Rebalse Separado tiene el mejor rendimiento tanto para evocaciones exitosas como no exitosas, ya que se espera un número sustancialmente menor de consultas en promedio que las demás estructuras y, en los casos extremos, es decir, los peores casos, esta diferencia es aún mayor. Por otro lado, el Rebalse Abierto Cuadrático tiene un rendimiento intermedio, y el Rebalse Abierto Lineal parece ser la menos eficiente en términos de cantidad de celdas consultadas necesarias para realizar evocaciones, sobre todo en los casos extremos, donde la diferencia es aún más pronunciada.
+Evocacion Exitosa:
+El RAL tiene un muy buen rendimiento en la evocación exitosa. El costo máximo es bajo, por lo que, en los peores casos, la cantidad de celdas consultadas es decente. Además, el costo promedio también es bajo, lo que sugiere un rendimiento consistente en general.
+RAC también muestra un buen rendimiento en evocación exitosa, con costos máximos y promedio relativamente bajos. Aunque es ligeramente mayor que RAL, sigue siendo eficiente.
+RS tiene un costo máximo aún más bajo que RAL y RAC en la evocación exitosa, lo que indica un rendimiento destacable en los casos extremos. Sin embargo, el costo promedio es un poco más alto, lo que puede implicar un rendimiento menos consistente.
+
+Evocacion No Exitosa:
+Aunque el RAL tiene un rendimiento aceptable en evocación no exitosa, su costo medio es ligeramente más alto en comparación con las otras estructuras, aunque su costo maximo se encuentra en un punto medio entre ellas, tendiendo mas a la performance del RAC. Sin embargo, sigue siendo eficiente en general.
+El RAC posee nuevamente el costo maximo mas elevado, y su costo medio apenas se diferencia del RAL en este caso, por lo que, si bien la diferencia no es mucha, parece ser la menos eficiente en general de las 3.
+El RS tiene un rendimiento excepcionalmente bueno en evocación no exitosa, con el costo máximo y promedio más bajo entre las tres estructuras. Esto indica que RS es especialmente eficiente cuando la búsqueda no tiene éxito.
+
+Conclusion: En términos de evocación exitosa, los Rebalses Abiertos son las mas eficientes en costos medios, aunque RS destaca en casos extremos. Para evocación no exitosa, RS supera a las otras estructuras, siendo la opción más eficiente por un buen margen.
+
 */
+
 int main()
 {
     // definiendo controles para diferentes OS

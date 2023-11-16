@@ -35,7 +35,7 @@ int RS_locateShipmentIndex(RS rs, Shipment s, Node **parent, Node **current, int
     while (*current != NULL)
     {
         (*cost)++;
-        if (strcasecmp((*current)->data.code, s.code) == 0)
+        if (stricmp((*current)->data.code, s.code) == 0)
         {
             return 1; // El Shipment fue encontrado
         }
@@ -134,6 +134,7 @@ void RS_printBucket(Node *list)
     while (cur != NULL)
     {
         printShipment(cur->data);
+        printf("\n");
         cur = cur->siguiente;
     }
 }
@@ -146,6 +147,7 @@ void RS_printStructure(RS shipments)
 
             printf("Bucket[%d]: ", i);
             RS_printBucket(shipments.baldes[i]);
+             printf("--------------------------------------------------------------------\n");
             printf("\n");
         }
     }

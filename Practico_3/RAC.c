@@ -16,7 +16,7 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
     int freePos = -1;
     int i = *pos;
     int contador = 0, k = 1;
-    int notFound = shipments.baldes[i].status == 1 ? strcasecmp(shipments.baldes[i].data.code, s.code) : 1;
+    int notFound = shipments.baldes[i].status == 1 ? stricmp(shipments.baldes[i].data.code, s.code) : 1;
     (*cost) = 1;
     while (contador < FACTOR_RAC && shipments.baldes[i].status != -1 && notFound)
     {
@@ -29,7 +29,7 @@ int RAC_locateShipmentIndex(RAC shipments, Shipment s, int *pos, float *cost)
         contador++;
         if (shipments.baldes[i].status == 1 && contador < FACTOR_RAC)
         {
-            notFound = strcasecmp(shipments.baldes[i].data.code, s.code);
+            notFound = stricmp(shipments.baldes[i].data.code, s.code);
         }
     }
     *cost += contador; // Suma la cantidad de comparaciones al costo
@@ -126,7 +126,7 @@ void RAC_printStructure(RAC shipments)
         }
         else if (shipments.baldes[i].status == 0)
         {
-            state = "Free";
+            state = "Free\t";
         }
         else
         {
@@ -138,6 +138,7 @@ void RAC_printStructure(RAC shipments)
         if (shipments.baldes[i].status == 1)
         {
             printShipment(shipments.baldes[i].data);
+             printf("-------------------------------------------------\n");
         }
         else
         {
